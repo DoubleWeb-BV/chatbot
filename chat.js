@@ -9,7 +9,7 @@
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `
     <button class="chat-toggle" id="chatOpenButton">
-      <img src="https://i.imgur.com/Z6Z1Hq2.png" alt="Chat openen">
+<img src="https://cdn.jsdelivr.net/gh/DoubleWeb-BV/chatbot@main/profile.jpg" alt="Chat openen">
     </button>
     <div class="chat-box" id="chatBox">
       <div class="chat-messages" id="chatMessages"></div>
