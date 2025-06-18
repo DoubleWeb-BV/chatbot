@@ -30,8 +30,6 @@
       flex-direction: column;
       overflow: hidden;
       z-index: 10000;
-      display: flex;
-      flex-direction: column;
     }
     .chat-messages {
       padding: 20px;
@@ -98,12 +96,12 @@
   `;
   document.body.appendChild(wrapper);
 
-  // Open knop
+  // Open chat
   document.getElementById("chatOpenButton").addEventListener("click", function () {
     document.getElementById("chatBox").style.display = "flex";
   });
 
-  // Chatlogica
+  // Chat logic
   const form = document.getElementById("chatForm");
   const chat = document.getElementById("chatMessages");
   const input = document.getElementById("chatInput");
@@ -113,6 +111,7 @@
     const message = input.value.trim();
     if (!message) return;
 
+    // Show user message
     const userBubble = document.createElement("div");
     userBubble.className = "chat-bubble user-message";
     userBubble.textContent = message;
@@ -128,15 +127,17 @@
       });
 
       const data = await response.json();
+
       const botBubble = document.createElement("div");
       botBubble.className = "chat-bubble bot-message";
       botBubble.innerHTML = data.text || "Geen antwoord ontvangen.";
       chat.appendChild(botBubble);
       chat.scrollTop = chat.scrollHeight;
-    } catch {
+
+    } catch (err) {
       const errBubble = document.createElement("div");
       errBubble.className = "chat-bubble bot-message";
-      errBubble.textContent = "⚠️ Er ging iets mis.";
+      errBubble.textContent = "⚠️ Er ging iets mis bij het ophalen van het antwoord.";
       chat.appendChild(errBubble);
       chat.scrollTop = chat.scrollHeight;
     }
