@@ -121,7 +121,7 @@
     input.value = "";
 
     try {
-      const response = await fetch("https://workflows.draadwerk.nl/webhook-test/chat", {
+      const response = await fetch("https://workflows.draadwerk.nl/webhook/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: message })
