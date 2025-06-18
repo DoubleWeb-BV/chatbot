@@ -1,21 +1,19 @@
 (function () {
-    const timestamp = Date.now(); // unieke waarde bij elke paginalaad
-
     // Load CSS
     const style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = `https://cdn.jsdelivr.net/gh/DoubleWeb-BV/chatbot@main/chat.css?t=${timestamp}`;
+    style.href = "https://cdn.jsdelivr.net/gh/DoubleWeb-BV/chatbot@main/chat.css";
     document.head.appendChild(style);
 
     // Load HTML
-    fetch(`https://cdn.jsdelivr.net/gh/DoubleWeb-BV/chatbot@main/chat.html?t=${timestamp}`)
+    fetch("https://cdn.jsdelivr.net/gh/DoubleWeb-BV/chatbot@main/chat.html")
         .then(res => res.text())
         .then(html => {
             const wrapper = document.createElement("div");
             wrapper.innerHTML = html;
             document.body.appendChild(wrapper);
 
-            // Setup logic...
+            // Setup logic
             document.getElementById("chatOpenButton").addEventListener("click", function () {
                 document.getElementById("chatBox").style.display = "flex";
             });
@@ -24,25 +22,16 @@
             const chat = document.getElementById("chatMessages");
             const input = document.getElementById("chatInput");
 
-            function getTimestamp() {
-                const now = new Date();
-                return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            }
-
-            function appendBubble(text, type) {
-                const bubble = document.createElement("div");
-                bubble.className = `chat-bubble ${type}`;
-                bubble.innerHTML = `<span>${text}</span><small class="chat-time">${getTimestamp()}</small>`;
-                chat.appendChild(bubble);
-                chat.scrollTop = chat.scrollHeight;
-            }
-
             form.addEventListener("submit", async function (e) {
                 e.preventDefault();
                 const message = input.value.trim();
                 if (!message) return;
 
-                appendBubble(message, "user-message");
+                const userBubble = document.createElement("div");
+                userBubble.className = "chat-bubble user-message";
+                userBubble.textContent = message;
+                chat.appendChild(userBubble);
+                chat.scrollTop = chat.scrollHeight;
                 input.value = "";
 
                 try {
@@ -53,9 +42,16 @@
                     });
 
                     const data = await response.json();
-                    appendBubble(data.text || "Geen antwoord ontvangen.", "bot-message");
+                    const botBubble = document.createElement("div");
+                    botBubble.className = "chat-bubble bot-message";
+                    botBubble.innerHTML = data.text || "Geen antwoord ontvangen.";
+                    chat.appendChild(botBubble);
+                    chat.scrollTop = chat.scrollHeight;
                 } catch {
-                    appendBubble("⚠️ Er ging iets mis.", "bot-message");
+                    const errBubble = document.createElement("div");
+                    errBubble.className = "chat-bubble bot-message";
+                    errBubble.textContent = "⚠️ Er ging iets mis.";
+                    chat.appendChild(errBubble);
                 }
             });
         });
