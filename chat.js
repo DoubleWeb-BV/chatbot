@@ -15,8 +15,10 @@
 
             // Setup logic
             document.getElementById("chatOpenButton").addEventListener("click", function () {
-                document.getElementById("chatBox").style.display = "flex";
+                const box = document.getElementById("chatBox");
+                box.style.display = (box.style.display === "flex") ? "none" : "flex";
             });
+
 
             const form = document.getElementById("chatForm");
             const chat = document.getElementById("chatMessages");
